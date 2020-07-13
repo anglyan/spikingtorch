@@ -35,10 +35,12 @@ Examples implemented in the paper include:
 
 The examples provide two different ways of training the networks: one using
 an MSE cost function, and a second one implementing cross entropy with some
-caveats.
- 
+caveats. These can be selected using the `--cost` flag. The networks
+can be trained against MNIST and Fashion MNIST as determined through the
+`--dataset` flag.
+
 
 The file [spikingnet.py]("./spikingnet.py") contains the core of the
-implementation. You should check the paper to understand the assumptions that
+implementation. The assumptions that
 go into the two recurrent implementations of leaky integrate and fire
-neurons used in this work.
+neurons used in this work are described in detail in the paper.
