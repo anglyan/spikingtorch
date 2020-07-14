@@ -9,7 +9,7 @@ and reproduces the results presented in the paper:
 
 [A. Yanguas-Gil, Coarse scale representation of spiking neural networks:
 backpropagation through spikes and application to neuromorphic
-hardware, axXiv:2007.06176](https://arxiv.org/abs/2007.06176)
+hardware, arXiv:2007.06176](https://arxiv.org/abs/2007.06176)
 
 Running:
 
@@ -35,12 +35,14 @@ Examples implemented in the paper include:
 
 The examples provide two different ways of training the networks: one using
 an MSE cost function, and a second one implementing cross entropy with some
-caveats. These can be selected using the `--cost` flag. The networks
-can be trained against MNIST and Fashion MNIST as determined through the
+caveats. These can be selected using the `--cost` flag.
+
+The networks
+can be trained against MNIST or Fashion MNIST through the
 `--dataset` flag.
 
 
 The file [spikingnet.py]("./spikingnet.py") contains the core of the
 implementation. The assumptions that
 go into the two recurrent implementations of leaky integrate and fire
-neurons used in this work are described in detail in the paper.
+neurons used in this work are described in detail in the [paper](https://arxiv.org/abs/2007.06176).
