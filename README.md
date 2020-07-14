@@ -9,7 +9,7 @@ and reproduces the results presented in the paper:
 
 [A. Yanguas-Gil, Coarse scale representation of spiking neural networks:
 backpropagation through spikes and application to neuromorphic
-hardware](https://icons.ornl.gov/)
+hardware, axXiv:2007.06176](https://arxiv.org/abs/2007.06176)
 
 Running:
 
