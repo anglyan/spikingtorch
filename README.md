@@ -52,6 +52,6 @@ hardware, arXiv:2007.06176](https://arxiv.org/abs/2007.06176)
 
 Copyright © 2020-2023, UChicago Argonne, LLC
 
-spikelearn is distributed under the terms of BSD License. See 
+spikingtorch is distributed under the terms of BSD License. See 
 [LICENSE](https://github.com/anglyan/spikingtorch/blob/master/LICENSE.md)
 
