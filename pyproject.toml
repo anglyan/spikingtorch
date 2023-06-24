@@ -1,0 +1,26 @@
+
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spikingtorch"
+authors = [
+{ name="Angel Yanguas-Gil"}]
+version = "0.1.1"
+description = "Inference and backprop training of spiking neural networks in Pytorch"
+readme = "README.md"
+keywords = ["spiking neurons", "neural networks", "AI", "Pytorch",
+    "neuromorphic computing", "spiking neural networks", "neuroscience"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "torch",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/spikingnn/spikingtorch"
+
