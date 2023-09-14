@@ -2,6 +2,6 @@
 # All Rights Reserved
 # Software Name: spikingtorch
 
-from .spikingnet import SpikingNet
+from .spikingnet import SpikingNetBase
 from .layers import SpikingLayer
 

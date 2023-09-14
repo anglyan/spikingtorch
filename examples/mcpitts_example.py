@@ -9,14 +9,14 @@ import numpy as np
 from torchvision import datasets, transforms
 
 from spikingtorch.layers import McPitts
-from spikingtorch import SpikingNet
+from spikingtorch import SpikingNetBase
 from spikingtorch.spikeio import PoissonEncoder, SumDecoder
 
 import torch.nn.functional as F
 import torch.optim as optim
 
 
-class SpikingConvNetwork(SpikingNet):
+class SpikingConvNetwork(SpikingNetBase):
 
     def __init__(self, Nout, t1, t2, beta=5, scale=1):
         super(SpikingConvNetwork, self).__init__()

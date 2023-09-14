@@ -8,14 +8,14 @@ import numpy as np
 
 from torchvision import datasets, transforms
 
-from spikingtorch import SpikingLayer, SpikingNet
+from spikingtorch import SpikingLayer, SpikingNetBase
 from spikingtorch.spikeio import PoissonEncoder, SumDecoder
 
 import torch.nn.functional as F
 import torch.optim as optim
 
 
-class SpikingConvNetwork(SpikingNet):
+class SpikingConvNetwork(SpikingNetBase):
 
     def __init__(self, Nout, t1, t2, beta=5, scale=1):
         super(SpikingConvNetwork, self).__init__()
@@ -60,6 +60,7 @@ def train(model, encoder, decoder, device, train_loader, optimizer, epoch):
         losses.append(loss.item())
     return losses
 
+
 def test(model, encoder, decoder, device, test_loader):
     model.eval()
     test_loss = 0
@@ -98,14 +99,14 @@ if __name__ == "__main__":
         batch_size=1000, shuffle=True)
 
     device = torch.device("cpu")
-    model = SpikingConvNetwork(10, 4, 4, beta=5, scale=1).to(device)
+    model = SpikingConvNetwork(10, 4, 4, beta=3, scale=1).to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     data = []
     losses = []
     nsteps = 8
     encoder = PoissonEncoder(nsteps, 1.0)
-    decoder = SumDecoder(nsteps, 4.0)
+    decoder = SumDecoder(nsteps, 1.0)
 
     for epoch in range(1, 10 + 1):
         losses.extend(train(model, encoder, decoder, device, train_dataloader, optimizer, epoch))
