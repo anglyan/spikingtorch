@@ -54,36 +54,21 @@ class SpikingLayer(nn.Module):
             s = self.s
         self.v = (1-s) * (self.a * v + self.b * xi) + s * self.c * xi
         self.s = hardsoft(self.v-self.v0, self.beta)
-        return s
+        return self.s
 
 
+class LIF(nn.Module):
 
+    def __init__(self, tau=8, v0=1, beta=5, decay=None):
+        super(LIF, self).__init__()
+        if decay is None:
+            self.tau = tau
+            self.a = m.exp(-1./tau)
+            self.b = tau*(1 - self.a)
+        else:
+            self.a = decay
+            self.b = 1
 
-class SpikingVextLayer(nn.Module):
-
-    def __init__(self, tau, v0=1, beta=5):
-        super(SpikingVextLayer, self).__init__()
-        self.a = m.exp(-1./tau)
-        self.b = tau*(1 - self.a)
-        self.c = tau*(1-self.b)
-        self.b = self.b/self.c
-        self.v0 = v0
-        self.beta = beta
-
-    def forward(self, xi):
-        xi=1.1*xi
-        v = (1-s) * (self.a * v + self.b*xi) + s * xi
-        s = hardsoft(v-self.v0, self.beta)
-        return s, v
-
-class SpikingLayer(nn.Module):
-
-    def __init__(self, tau, v0=1, beta=5):
-        super(SpikingLayer, self).__init__()
-        self.tau = tau
-        self.a = m.exp(-1./tau)
-        self.b = tau*(1 - self.a)
-        self.c = tau*(1-self.b)
         self.v0 = v0
         self.beta = beta
 
@@ -93,14 +78,40 @@ class SpikingLayer(nn.Module):
 
     def forward(self, xi, init=False):
         if init:
-            v = torch.zeros_like(xi).to(xi.device)
-            s = torch.zeros_like(xi).to(xi.device)
-        else:
-            v = self.v
-            s = self.s
-        self.v = (1-s) * (self.a * v + self.b * xi) + s * self.c * xi
+            self.reset(xi)    
+        self.v = (1-self.s) * self.a * self.v + self.b * xi
         self.s = hardsoft(self.v-self.v0, self.beta)
-        return s
+        return self.s
+
+
+class IF(nn.Module):
+
+    def __init__(self, v0=1, beta=5):
+        super(IF, self).__init__()
+        self.v0 = v0
+        self.beta = beta
+
+    def reset(self, xi):
+        self.v = torch.zeros_like(xi).to(xi.device)
+        self.s = torch.zeros_like(xi).to(xi.device)
+
+    def forward(self, xi, init=False):
+        if init:
+            self.reset(xi)
+        self.v = (1-self.s) * self.v +  xi
+        self.s = hardsoft(self.v-self.v0, self.beta)
+        return self.s
+
+
+class McPitts(nn.Module):
+
+    def __init__(self, thr, beta=3):
+        super(McPitts, self).__init__()
+        self.thr = thr
+        self.beta = beta
+
+    def forward(self, x):
+        return hardsoft(x-self.thr, self.beta)
 
 
 class SpikingDecay(nn.Module):
