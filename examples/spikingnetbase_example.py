@@ -8,7 +8,8 @@ import numpy as np
 
 from torchvision import datasets, transforms
 
-from spikingtorch import SpikingLayer, SpikingNetBase
+from spikingtorch import SpikingLayer
+from spikingtorch.spikingnet import SpikingNetBase
 from spikingtorch.spikeio import PoissonEncoder, SumDecoder
 
 import torch.nn.functional as F

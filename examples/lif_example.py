@@ -8,29 +8,30 @@ import numpy as np
 
 from torchvision import datasets, transforms
 
-from spikingtorch import SpikingLayer, SpikingNetBase
+from spikingtorch import SpikingNet
+from spikingtorch import LIF
 from spikingtorch.spikeio import PoissonEncoder, SumDecoder
 
 import torch.nn.functional as F
 import torch.optim as optim
 
 
-class SpikingConvNetwork(SpikingNetBase):
+class SpikingConvNetwork(nn.Module):
 
     def __init__(self, Nout, t1, t2, beta=5, scale=1):
         super(SpikingConvNetwork, self).__init__()
-        self.Nout = (Nout,)
+        self.Nout = Nout
         self.size2 = 10
         self.Nhid2 = self.size2*self.size2*6
         self.scale = scale
         self.conv1 = nn.Conv2d(1, 4, (4,4), stride=2, padding=0) # 15x15
-        self.l1 = nn.Linear(self.Nhid2, self.Nout[0], bias=None)
+        self.l1 = nn.Linear(self.Nhid2, self.Nout, bias=None)
         self.conv2 = nn.Conv2d(4, 6, (4,4), stride=1, padding=0)
-        self.sl1 = SpikingLayer(t1, beta=beta)
-        self.sl2 = SpikingLayer(t1, beta=beta)
-        self.sl3 = SpikingLayer(t2, beta=beta)
+        self.sl1 = LIF(t1, beta=beta)
+        self.sl2 = LIF(t1, beta=beta)
+        self.sl3 = LIF(t2, beta=beta)
 
-    def single_pass(self, xi, init):
+    def forward(self, xi, init):
         xi = self.conv1(xi)
         s1 = self.sl1(xi, init)
         xi = self.conv2(s1)
@@ -99,7 +100,8 @@ if __name__ == "__main__":
         batch_size=1000, shuffle=True)
 
     device = torch.device("cpu")
-    model = SpikingConvNetwork(10, 4, 4, beta=3, scale=1).to(device)
+    net = SpikingConvNetwork(10, 4, 4, beta=3, scale=1).to(device)
+    model = SpikingNet(net, (10,)).to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     data = []
