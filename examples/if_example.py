@@ -89,13 +89,13 @@ def test(model, encoder, decoder, device, test_loader):
 if __name__ == "__main__":
 
     train_dataloader = torch.utils.data.DataLoader(
-        datasets.FashionMNIST('FMNIST', train=True, download=True,
+        datasets.FashionMNIST('~/DATA/FMNIST', train=True, download=True,
                         transform=transforms.Compose([
                             transforms.ToTensor()
                         ])),
         batch_size=32, shuffle=True)
     test_dataloader = torch.utils.data.DataLoader(
-        datasets.FashionMNIST('FMNIST', train=False, transform=transforms.Compose([
+        datasets.FashionMNIST('~/DATA/FMNIST', train=False, transform=transforms.Compose([
                             transforms.ToTensor()
                         ])),
         batch_size=1000, shuffle=True)
@@ -112,17 +112,14 @@ if __name__ == "__main__":
     encoder = PoissonEncoder(nsteps, 1.0)
     decoder = SumDecoder(nsteps, 1.0)
 
-    for epoch in range(1, 10 + 1):
+    for epoch in range(10):
         losses.extend(train(model, encoder, decoder, device, train_dataloader, optimizer, epoch))
         result = test(model, encoder, decoder, device, test_dataloader)
-        data.append([epoch, result])
+        data.append(result)
 
     data = np.array(data)
     filename = "training_data.npy"
-    filemode = "model_state.pt"
     np.save(filename, data)
-    np.save("loss.npy", np.array(losses))
-    torch.save(model.state_dict(), filemode)
 
     
 
