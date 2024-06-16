@@ -1,5 +1,6 @@
 About spikingtorch
-------------------
+==================
+
 
 ``spikingtorch`` is a package to train spiking neural networks in Pytorch using
 stochastic gradient descent methods.
@@ -31,8 +32,10 @@ Usage
 Citing
 ------
 
-If you want to acknowledge ``spikelearn`` in a publication, you can cite
+If you want to acknowledge ``spikingtorch`` in a publication, you can cite
 the following work:
+
+*In preparation*
 
 
 
@@ -52,6 +55,4 @@ Copyright and license
 Copyright © 2023, UChicago Argonne, LLC
 
 Spikingtorch is distributed under the terms of BSD License.
-
-
 

@@ -1,4 +1,2 @@
-ipykernel
-nbsphinx
 numpy
 sphinxcontrib-googleanalytics

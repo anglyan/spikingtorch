@@ -23,7 +23,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.autosummary',
 #    'sphinxcontrib.googleanalytics',
-    'nbsphinx',   
+#    'nbsphinx',   
 ]
 
 autosummary_generate = True
