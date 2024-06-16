@@ -57,7 +57,6 @@ def train(model, encoder, decoder, device, train_loader, optimizer, epoch):
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.item()))
-#            print(output)
         losses.append(loss.item())
     return losses
 
@@ -88,13 +87,13 @@ def test(model, encoder, decoder, device, test_loader):
 if __name__ == "__main__":
 
     train_dataloader = torch.utils.data.DataLoader(
-        datasets.FashionMNIST('FMNIST', train=True, download=True,
+        datasets.FashionMNIST('~/DATA/FMNIST', train=True, download=True,
                         transform=transforms.Compose([
                             transforms.ToTensor()
                         ])),
         batch_size=32, shuffle=True)
     test_dataloader = torch.utils.data.DataLoader(
-        datasets.FashionMNIST('FMNIST', train=False, transform=transforms.Compose([
+        datasets.FashionMNIST('~/DATA/FMNIST', train=False, transform=transforms.Compose([
                             transforms.ToTensor()
                         ])),
         batch_size=1000, shuffle=True)
