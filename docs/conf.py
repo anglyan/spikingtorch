@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'spikingtorch'
-copyright = '2023, Angel Yanguas-Gil'
+copyright = '2023, UChicago Argonne, LLC'
 author = 'Angel Yanguas-Gil'
-release = '0.1.2'
+release = '0.1.3'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
