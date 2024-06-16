@@ -98,7 +98,7 @@ if __name__ == "__main__":
                         ])),
         batch_size=1000, shuffle=True)
 
-    device = torch.device("cpu")
+    device = torch.device("mps")
     net = SpikingConvNetwork(10, 4, 4, beta=3, scale=1).to(device)
     model = SpikingNet(net, (10,)).to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
