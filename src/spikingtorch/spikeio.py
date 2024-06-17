@@ -21,6 +21,17 @@ class PoissonEncoder:
 
         return torch.concat(slist, dim=1).detach()
 
+class ConstantEncoder:
+    def __init__(self, nsteps):
+        self.nsteps = nsteps
+
+    def __call__(self, x):
+
+#        x = torch.unsqueeze(x,1)
+        d = [-1]*len(x.size())        
+        d[1] = self.nsteps
+        return x.expand(*d)
+
 
 class PeriodicEncoder:
 
