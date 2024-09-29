@@ -9,10 +9,14 @@ Spikingtorch documentation
 .. include:: intro.rst
 
 
+Contents
+========
+
 .. toctree::
-   :maxdepth: 2
-   
+   :maxdepth: 1
+
    tutorial
+   backprop
 
 
 
