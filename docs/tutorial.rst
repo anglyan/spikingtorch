@@ -11,9 +11,12 @@ challenges of training spiking neural networks.
 On spiking neurons
 ------------------
 
-The fundamental attribute of spiking neural networks is that
+The fundamental attribute of spiking neurons is that
 they communicate through spikes. Here, spikes can be viewed
-as a binary output. 
+as a binary output. SNNs can be therefore built similar to
+how we build artificial neural networks, with spiking neurons
+occupying the role of non-linear or rectifying functions in
+ANNs.
 
 The way one can increase the amount of information encoded in
 the output of a spiking neuron (SN) is by considering a sequence or
@@ -27,16 +30,17 @@ from time to spike to rate encodings based on either periodic or random
 spike trains.
 
 Training SNNs using stochastic gradient descent methods requires dealing
-with the use of time: every SNN is essentially a type of recurrent neural
-networks. `spikingtorch` deals with this through the creation of a few
+with backpropagation through time: every SNN is essentially a type of
+recurrent neural
+network. ``spikingtorch`` deals with this through the creation of a few
 key building blocks that are designed to abstract some of this
 complexity.
 
-The key building block: a ``SpikingNet``
-----------------------------------------
+Implementing spiking neural networks using ``SpikingNet``
+---------------------------------------------------------
 
-The way we define a spiking neural network in `spikingtorch` is through
-the use of a `SpikingNet` module::
+The way we define a spiking neural network in ``spikingtorch`` is through
+the use of a ``SpikingNet`` object::
 
     model = SpikingNet(net, (Nout,))
 
@@ -47,17 +51,18 @@ Here :code:`net` represents a Pytorch module, and
 Spiking neuron models
 ---------------------
 
-`spikingtorch` implements a number of spiking neuron models. These
+``spikingtorch`` implements a number of spiking neuron models. These
 can be used as layers in more complex spiking neural networks. For
 intance, here is the definition of a simple SNN using the :code:`IF` layer,
 which represents an integrate and fire neuron::
 
     from spikingtorch import IF
+    import torch.nn as nn
 
-    class SpikingNet(nn.Module):
+    class MySNN(nn.Module):
 
         def __init__(self):
-            super(SpikingNet, self).__init__()
+            super(MySNN, self).__init__()
             self.Nout = Nout
             self.conv1 = nn.Conv2d(1, 4, (4,4), stride=2, padding=0) # 15x15
             self.conv2 = nn.Conv2d(4, 6, (4,4), stride=1, padding=0)
@@ -77,12 +82,56 @@ which represents an integrate and fire neuron::
             return self.sl3(xi2, init)
 
 This code should be familiar for anyone who has experience working
-with pytorch. We define our network as you would create a model.
-The main difference is that the ``forward`` method contains two
+with Pytorch. We define our network as you would create a model.
+The main difference is that the ``forward`` method takes two
 arguments, the input to the network and an additional ``init`` flag
 that is subsequently passed to the spiking neuron layers.
 
 Users don't have  to worry about this ``init`` flag, but this is
-the way `SpikingNet` currently communicates to the model the need to reset
-the internal memory of a spiking neuron.
+the way a ``SpikingNet`` object currently communicates to each spiking
+layer the need to reset its internal memory.
+
+Encoders and decoders
+---------------------
+
+Encoders and decoders comprise the third key building block
+of ``spikingtorch``. Encoders take inputs and transform them so that
+they can be passed into a ``SpikingNet`` object. For instance
+in this example::
+
+    from spikingtorch.spikeio import PoissonEncoder
+    nsteps = 8
+    enc = PoissonEncoder(nsteps, 1.0)
+
+we create a :code:`PoissonEncoder` object that transforms inputs into
+a Poisson spike train comprising 8 steps using an appropriate scale
+factor. The output of a Pytorch ``DataLoader`` can be directly used
+as input.
+
+Likewise, the output of a ``SpikingNet`` is a train of spikes. These
+have to be transformed so that we can apply a loss function to the output
+of the SNN. For instance::
+
+    from spikingtorch.spikeio import SumDecoder
+    decoder = SumDecoder(nsteps, 1.0)
+
+creates a :code:`SumDecoder` object that transforms the spike trains
+into a single value that can then passed to a loss function.
+
+Putting it all together
+-----------------------
+
+The bulding blocks introduced above allow the training of SNNs
+on machine learning tasks using standard data loaders, loss functions,
+and optimizers implemented in Pytorch::
+
+        mdata = encoder(data)
+        output = decoder(model(mdata))
+        loss = F.cross_entropy(output, mtarget)
+        loss.backward()
+
+The ``spikingtorch`` GitHub repository
+has a few examples that users can use as a starting
+point to train their own spiking neural networks.
+
 
