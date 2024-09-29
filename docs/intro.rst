@@ -36,7 +36,10 @@ Citing
 If you want to acknowledge ``spikingtorch`` in a publication, you can cite
 the following work:
 
-*In preparation*
+`Coarse scale representation of spiking neural networks:
+backpropagation through spikes and application to neuromorphic
+hardware <https://dl.acm.org/doi/abs/10.1145/3407197.3407221>`_.
+This work is also available on `arXiv <https://arxiv.org/abs/2007.06176>`_.
 
 
 Acknowledgements
