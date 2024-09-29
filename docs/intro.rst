@@ -38,7 +38,6 @@ the following work:
 *In preparation*
 
 
-
 Acknowledgements
 ----------------
 
