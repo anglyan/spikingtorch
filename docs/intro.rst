@@ -28,6 +28,7 @@ Alternatively, you can directly obtain ``spikingtorch`` through its
 Usage
 -----
 
+Check the tutorial (:ref:`tutorial`) for a brief introduction to ``spikingtorch``. 
 
 Citing
 ------

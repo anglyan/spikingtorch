@@ -1,3 +1,5 @@
+.. _tutorial:
+
 Tutorial
 ========
 
@@ -53,7 +55,7 @@ Spiking neuron models
 
 ``spikingtorch`` implements a number of spiking neuron models. These
 can be used as layers in more complex spiking neural networks. For
-intance, here is the definition of a simple SNN using the :code:`IF` layer,
+instance, here is the definition of a simple SNN using the :code:`IF` layer,
 which represents an integrate and fire neuron::
 
     from spikingtorch import IF
@@ -81,7 +83,7 @@ which represents an integrate and fire neuron::
             xi2 = self.l1(xi)
             return self.sl3(xi2, init)
 
-This code should be familiar for anyone who has experience working
+This code should be familiar to anyone who has experience working
 with Pytorch. We define our network as you would create a model.
 The main difference is that the ``forward`` method takes two
 arguments, the input to the network and an additional ``init`` flag
