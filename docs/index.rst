@@ -18,11 +18,3 @@ Contents
    tutorial
    backprop
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

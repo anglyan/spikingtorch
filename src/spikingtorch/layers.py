@@ -156,6 +156,32 @@ class McPitts(nn.Module):
         return step(x-self.thr, self.beta)
 
 
+class BioLIF(nn.Module):
+
+    def __init__(self, nudt, v0=0.5, beta=5, track_act=False):
+        super(BioLIF, self).__init__()
+        self.nu0 = nudt
+        self.v0 = v0
+        self.beta = beta
+        self.track_act = track_act
+
+    def reset(self, xi):
+        self.v = torch.zeros_like(xi).to(xi.device)
+        self.s = torch.zeros_like(xi).to(xi.device)
+        self.act = torch.zeros_like(xi).to(xi.device)
+
+    def forward(self, xe, xi, init):
+        if init:
+            self.reset(xe)
+        nu = (1+xe+xi)
+        a = torch.exp(-self.nu0*nu).detach()
+        de = xe/nu
+        self.v = (1-self.s) * self.v * a + de*(1-a)
+        self.s = step(self.v-self.v0, self.beta)
+        if self.track_act:
+            self.act += self.s
+        return self.s
+
 class SpikingDecay(nn.Module):
 
     def __init__(self, tau, v0=1, beta=5):
